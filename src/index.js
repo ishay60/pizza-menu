@@ -6,18 +6,18 @@ import { pizzas } from "./data";
 
 function App() {
   return (
-    <div className="container ">
+    <>
       <Header />
       <Menu />
       <Footer />
-    </div>
+    </>
   );
 }
 
 function Header() {
   const style = { color: "red", fontSize: "32px", textTransform: "uppercase" };
   return (
-    <header className="header footer">
+    <header className="header">
       <h1 style={style}>Fast React Pizza Co.</h1>
     </header>
   );
@@ -27,15 +27,15 @@ function Header() {
 //  console.log(props);
 //}
 function Pizza({ pizzaData }) {
-  const { name, ingredients, price, photoName, soldOut, photo } = pizzaData;
-  if (soldOut) return null;
+  const { name, ingredients, price, soldOut, photo } = pizzaData;
+  // if (soldOut) return null;
   return (
-    <div className="pizza">
+    <div className={`pizza ${soldOut ? "sold-out" : ""}`}>
       <img src={photo} alt={name} />
       <div>
         <h3>{name}</h3>
         <p>{ingredients}</p>
-        <span>{price}</span>
+        <span>{soldOut ? "Sold Out" : price}</span>
       </div>
     </div>
   );
@@ -50,16 +50,22 @@ function Menu() {
               price={6}
               photoName= "pizzas/focaccia.jpg"  />
       <Pizza /> */}
+      <>
+        <p className="p">
+          Authentic Italian cuisine. {pizzas.length} creative dishes to choose
+          from . All from our stone oven , all delicious!
+        </p>
 
-      {pizzas.map((pizza) => {
-        if (!pizza) {
-          return (
-            <p>We're still working on our menu . Please try Again later</p>
-          );
-        }
+        {pizzas.map((pizza) => {
+          if (!pizza) {
+            return (
+              <p>We're still working on our menu . Please try Again later</p>
+            );
+          }
 
-        return <Pizza key={`pizza_item_${pizza.name}`} pizzaData={pizza} />;
-      })}
+          return <Pizza key={`pizza_item_${pizza.name}`} pizzaData={pizza} />;
+        })}
+      </>
     </main>
   );
 }
